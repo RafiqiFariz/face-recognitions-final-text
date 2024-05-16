@@ -1,3 +1,5 @@
+import shutil
+
 import cv2
 import numpy as np
 from werkzeug.utils import secure_filename
@@ -43,11 +45,6 @@ def index():
     })
 
 
-"""
-Route untuk mengupload data wajah
-"""
-
-
 @app.route("/generate-dataset", methods=['POST'])
 def upload():
     if 'video' not in request.files:
@@ -71,6 +68,8 @@ def upload():
         if not folder_exists(username):
             face_rec = FaceRec(username, filepath)
             face_rec.start()
+
+            shutil.rmtree(filepath)
             return jsonify('Dataset generated successfully'), 201
         else:
             return jsonify('Dataset already generated'), 409
@@ -111,3 +110,16 @@ def check_user_facial_data(name):
         return jsonify('User folder not found'), 404
     else:
         return jsonify('User folder already exists'), 409
+
+
+@app.route('/delete-facial-data/<name>', methods=['POST'])
+def delete_facial_data(name):
+    username = str(name).lower()
+    dataset_path = os.path.join(os.getcwd(), "dataset")
+    user_folder_path = os.path.join(dataset_path, username)
+
+    if folder_exists(username):
+        shutil.rmtree(user_folder_path)
+        return jsonify('Facial data deleted successfully'), 200
+    else:
+        return jsonify('Facial data not found'), 404
