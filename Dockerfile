@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED True
 # Copy local code to the container image
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY . ./
+COPY . ./app
 
 RUN apt-get update && apt-get install -y build-essential
 RUN apt-get update && apt-get -y install cmake
@@ -21,8 +21,9 @@ RUN pip install -r requirements.txt
 # For environments with multiple CPU cores, increase the numbers workers
 # to be equal to the cores available.
 # Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scale
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
+# CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
 # EXPOSE 5000
 # ENV FLASK_APP=app.py
-# CMD ["flask", "run", "--host", "0.0.0.0"]
+# ENV FLASK_RUN_PORT=8080
+CMD python ./app.py
 

@@ -8,15 +8,18 @@ from retrain import Main
 from facerec import FaceRec
 import time
 import os
+from dotenv import load_dotenv
 
 UPLOAD_FOLDER = './videos'
 ALLOWED_EXTENSIONS = {'webm', 'mp4', 'jpeg', 'jpg', 'png'}
 
 app = Flask(__name__)
 CORS(app)
+load_dotenv()
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+app.config.from_pyfile('config.py')
 
 model_path = "facerec_model.clf"
 Training = Main(model=model_path, source=0)
