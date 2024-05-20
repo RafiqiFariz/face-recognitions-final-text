@@ -68,8 +68,7 @@ def upload():
         if not folder_exists(username):
             face_rec = FaceRec(username, filepath)
             face_rec.start()
-
-            shutil.rmtree(filepath)
+            os.remove(filepath)
             return jsonify('Dataset generated successfully'), 201
         else:
             return jsonify('Dataset already generated'), 409
