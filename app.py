@@ -20,6 +20,10 @@ CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
+# Pastikan folder videos dan dataset ada
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs('dataset', exist_ok=True)
+
 model_path = "facerec_model.clf"
 Training = Main(model=model_path, source=0)
 
