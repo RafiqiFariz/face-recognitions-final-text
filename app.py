@@ -106,18 +106,18 @@ def predict():
     return jsonify([(name, Training.accuracy) for name, _ in Training.predictions])
 
 
-@app.route('/check-facial-data/<name>', methods=['GET'])
-def check_user_facial_data(name):
-    username = str(name).lower()
+@app.route('/check-facial-data', methods=['GET'])
+def check_user_facial_data():
+    username = str(request.args.get('name')).lower()
     if not folder_exists(username):
         return jsonify('User folder not found'), 404
     else:
         return jsonify('User folder already exists'), 409
 
 
-@app.route('/delete-facial-data/<name>', methods=['POST'])
-def delete_facial_data(name):
-    username = str(name).lower()
+@app.route('/delete-facial-data', methods=['POST'])
+def delete_facial_data():
+    username = str(request.form.get('name')).lower()
     dataset_path = os.path.join(os.getcwd(), "dataset")
     user_folder_path = os.path.join(dataset_path, username)
 

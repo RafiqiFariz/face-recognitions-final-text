@@ -25,7 +25,8 @@ class FaceRec:
         if not os.path.exists(self.path):
             os.makedirs(self.path)
 
-        self.img_counter = sum(os.path.isfile(os.path.join(self.path, item)) for item in os.listdir(self.path))
+        # self.img_counter = sum(os.path.isfile(os.path.join(self.path, item)) for item in os.listdir(self.path))
+        self.img_counter = 0
 
     def read_video(self):
         while self.cap.isOpened():
