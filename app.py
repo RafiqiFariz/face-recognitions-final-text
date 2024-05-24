@@ -117,10 +117,11 @@ def check_user_facial_data():
 
 @app.route('/delete-facial-data', methods=['POST'])
 def delete_facial_data():
-    username = str(request.form.get('name')).lower()
+    data = request.get_json()
+    username = str(data['name']).lower()
     dataset_path = os.path.join(os.getcwd(), "dataset")
     user_folder_path = os.path.join(dataset_path, username)
-
+    
     if folder_exists(username):
         shutil.rmtree(user_folder_path)
         return jsonify('Facial data deleted successfully'), 200
